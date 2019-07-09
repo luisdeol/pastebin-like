@@ -4,9 +4,9 @@ namespace PastebinLike.Infrastructure.Accessors
 {
     public class FileStorageService
     {
-        public Task<string> SavePastebinToStorage(string objectKey, string content)
+        public async Task<string> SavePastebinToStorage(string objectKey, string content)
         {
-            return Task.FromResult(objectKey);
+            return await Task.FromResult(objectKey);
         }
     }
 }
