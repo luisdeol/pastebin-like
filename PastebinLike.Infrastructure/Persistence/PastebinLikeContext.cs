@@ -10,7 +10,7 @@ namespace PastebinLike.Infrastructure.Persistence
             
         }
 
-        public DbSet<Pastebin> Pastebin { get; set; }
+        public DbSet<Pastebin> Pastebins { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

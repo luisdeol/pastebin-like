@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using PastebinLike.Core.Entities;
+using System;
 
 namespace PastebinLike.WebApp.DTOs
 {
     public class PastebinToCreateDTO
     {
-        private PastebinToCreateDTO(string content)
-        {
-            Content = content;
-        }
-
         public string Content { get; private set; }
-
-        public static PastebinToCreateDTO CreateNewFromContent(string content)
-        {
-            return new PastebinToCreateDTO(content); 
-        }
+        public DateTime ExpirationDate { get; set; }
+        public string ObjectKey { get; set; }
+        public string Title { get; set; }
     }
 }

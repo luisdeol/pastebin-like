@@ -6,10 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PastebinLike.Core.Repositories;
+using PastebinLike.Infrastructure.Accessors;
+using PastebinLike.Infrastructure.Persistence;
+using PastebinLike.Infrastructure.Persistence.Repositories;
+using PastebinLike.WebApp.Services;
 
 namespace PastebinLike.WebApp
 {
@@ -22,13 +28,20 @@ namespace PastebinLike.WebApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
+
+            services.AddDbContext<PastebinLikeContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Pastebin")));
+
+            services.AddSingleton<FileStorageService>();
+
+            services.AddScoped<IPastebinRepository, PastebinRepository>();
+            services.AddScoped<IPastebinService, PastebinService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
